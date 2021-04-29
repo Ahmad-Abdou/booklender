@@ -1,18 +1,18 @@
-package model;
+package se.lexicon.ahmad.abdou.booklender.model;
 
 import java.time.LocalDate;
 import java.util.Objects;
 
-public class Loan {
+public class LoanDto {
     private long loanId;
-    private LibraryUser loanTaker ;
-    private Book book;
+    private LibraryUserDto loanTaker ;
+    private BookDto bookDto;
     private LocalDate localDate;
     private boolean terminated;
 
-    public Loan(LibraryUser loanTaker, Book book, LocalDate localDate, boolean terminated) {
+    public LoanDto(LibraryUserDto loanTaker, BookDto bookDto, LocalDate localDate, boolean terminated) {
         this.loanTaker = loanTaker;
-        this.book = book;
+        this.bookDto = bookDto;
         this.localDate = localDate;
         this.terminated = terminated;
     }
@@ -22,20 +22,20 @@ public class Loan {
     }
 
 
-    public LibraryUser getLoanTaker() {
+    public LibraryUserDto getLoanTaker() {
         return loanTaker;
     }
 
-    public void setLoanTaker(LibraryUser loanTaker) {
+    public void setLoanTaker(LibraryUserDto loanTaker) {
         this.loanTaker = loanTaker;
     }
 
-    public Book getBook() {
-        return book;
+    public BookDto getBook() {
+        return bookDto;
     }
 
-    public void setBook(Book book) {
-        this.book = book;
+    public void setBook(BookDto bookDto) {
+        this.bookDto = bookDto;
     }
 
     public LocalDate getLocalDate() {
@@ -58,13 +58,13 @@ public class Loan {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        Loan loan = (Loan) o;
-        return loanId == loan.loanId && terminated == loan.terminated && Objects.equals(loanTaker, loan.loanTaker) && Objects.equals(book, loan.book) && Objects.equals(localDate, loan.localDate);
+        LoanDto loanDto = (LoanDto) o;
+        return loanId == loanDto.loanId && terminated == loanDto.terminated && Objects.equals(loanTaker, loanDto.loanTaker) && Objects.equals(bookDto, loanDto.bookDto) && Objects.equals(localDate, loanDto.localDate);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(loanId, loanTaker, book, localDate, terminated);
+        return Objects.hash(loanId, loanTaker, bookDto, localDate, terminated);
     }
 
     @Override
@@ -72,7 +72,7 @@ public class Loan {
         return "Loan{" +
                 "loanId=" + loanId +
                 ", loanTaker=" + loanTaker +
-                ", book=" + book +
+                ", book=" + bookDto +
                 ", localDate=" + localDate +
                 ", terminated=" + terminated +
                 '}';

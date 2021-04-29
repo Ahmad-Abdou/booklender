@@ -1,15 +1,15 @@
-package model;
+package se.lexicon.ahmad.abdou.booklender.model;
 
 import java.time.LocalDate;
 import java.util.Objects;
 
-public class LibraryUser {
+public class LibraryUserDto {
     private int userId;
     private LocalDate regDate;
     private String name;
     private String email;
 
-    public LibraryUser(LocalDate regDate, String name, String email) {
+    public LibraryUserDto(LocalDate regDate, String name, String email) {
         this.regDate = regDate;
         this.name = name;
         this.email = email;
@@ -47,7 +47,7 @@ public class LibraryUser {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        LibraryUser that = (LibraryUser) o;
+        LibraryUserDto that = (LibraryUserDto) o;
         return userId == that.userId && Objects.equals(regDate, that.regDate) && Objects.equals(name, that.name) && Objects.equals(email, that.email);
     }
 

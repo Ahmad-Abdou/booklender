@@ -1,9 +1,9 @@
-package model;
+package se.lexicon.ahmad.abdou.booklender.model;
 
 import java.math.BigDecimal;
 import java.util.Objects;
 
-public class Book {
+public class BookDto {
     private int bookId;
     private String title;
     private boolean available;
@@ -12,7 +12,7 @@ public class Book {
     private BigDecimal finePerDay;
     private String description;
 
-    public Book(String title, int maxLoanDays, BigDecimal finePerDay, String description) {
+    public BookDto(String title, int maxLoanDays, BigDecimal finePerDay, String description) {
         this.title = title;
         this.maxLoanDays = maxLoanDays;
         this.finePerDay = finePerDay;
@@ -75,8 +75,8 @@ public class Book {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        Book book = (Book) o;
-        return bookId == book.bookId && available == book.available && reserved == book.reserved && maxLoanDays == book.maxLoanDays && Objects.equals(title, book.title) && Objects.equals(finePerDay, book.finePerDay) && Objects.equals(description, book.description);
+        BookDto bookDto = (BookDto) o;
+        return bookId == bookDto.bookId && available == bookDto.available && reserved == bookDto.reserved && maxLoanDays == bookDto.maxLoanDays && Objects.equals(title, bookDto.title) && Objects.equals(finePerDay, bookDto.finePerDay) && Objects.equals(description, bookDto.description);
     }
 
     @Override
