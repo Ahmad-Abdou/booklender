@@ -15,6 +15,6 @@ public class LibraryUser {
     private String name;
     @Column(unique = true)
     private String email;
-    @OneToMany(mappedBy = "loanTaker")
-    private List<Loan> loans;
+
+
 }
