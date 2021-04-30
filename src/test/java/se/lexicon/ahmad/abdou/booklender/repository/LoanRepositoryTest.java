@@ -74,12 +74,12 @@ public class LoanRepositoryTest {
     }
     @Test
     public void test_findByLoanTakerUserId(){
-       String email = loanRepository.findByLoanTakerUserId(12).getLoanTaker().getEmail();
+       String email = loanRepository.findByLoanTakerUserId(12).get(0).getLoanTaker().getEmail();
         Assertions.assertEquals("test@test.com",email);
     }
     @Test
     public void test_findByBookBookId(){
-       String title = loanRepository.findByBookBookId(32).getBook().getTitle();
+       String title = loanRepository.findByBookBookId(32).get(0).getBook().getTitle();
         Assertions.assertEquals("OCA",title);
     }
    @Test

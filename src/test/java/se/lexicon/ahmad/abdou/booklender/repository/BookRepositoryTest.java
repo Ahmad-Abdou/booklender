@@ -101,7 +101,7 @@ public class BookRepositoryTest  {
 
         bookRepository.save(book3);
 
-        book = bookRepository.findBookByTitle("Python");
+        bookRepository.findBookByTitle("python");
         System.out.println(book.getTitle());
         Assertions.assertEquals("Python",book3.getTitle());
     }

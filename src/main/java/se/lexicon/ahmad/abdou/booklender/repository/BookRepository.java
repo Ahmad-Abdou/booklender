@@ -12,7 +12,7 @@ public interface BookRepository  extends CrudRepository<Book,Integer> {
 
     List<Book> findBookByAvailable(boolean available);
 
-    Book findBookByTitle(String title);
+    List<Book> findBookByTitle(String title);
 
 
 
