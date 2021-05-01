@@ -3,6 +3,7 @@ package se.lexicon.ahmad.abdou.booklender.service;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import se.lexicon.ahmad.abdou.booklender.DTO.BookDto;
 import se.lexicon.ahmad.abdou.booklender.DTO.LibraryUserDto;
 import se.lexicon.ahmad.abdou.booklender.DTO.LoanDto;
 import se.lexicon.ahmad.abdou.booklender.entity.LibraryUser;
@@ -22,28 +23,27 @@ public class LoanServiceImpl implements LoanService{
     ModelMapper modelMapper;
 
     @Autowired
-    public void setLoanRepository(LoanRepository loanRepository) {
+    public LoanServiceImpl(LoanRepository loanRepository, LibraryUserRepository libraryUserRepository, BookRepository bookRepository, ModelMapper modelMapper) {
         this.loanRepository = loanRepository;
-    }
-
-    @Autowired
-    public void setLibraryUserRepository(LibraryUserRepository libraryUserRepository) {
         this.libraryUserRepository = libraryUserRepository;
-    }
-
-    @Autowired
-    public void setBookRepository(BookRepository bookRepository) {
         this.bookRepository = bookRepository;
-    }
-
-    @Autowired
-    public void setModelMapper(ModelMapper modelMapper) {
         this.modelMapper = modelMapper;
     }
 
     @Override
     public LoanDto create(LoanDto loanDto) {
-        return   modelMapper.map(loanRepository.save(modelMapper.map(loanDto, Loan.class)),LoanDto.class);
+        Loan loanEntity = modelMapper.map(loanDto,Loan.class);
+        Loan saved =  loanRepository.save(loanEntity);
+        LoanDto  loanDto1 = modelMapper.map(saved,LoanDto.class);
+
+        LibraryUser libraryUser = libraryUserRepository.findByUserId(saved.getLoanTaker().getUserId()).get();
+        loanDto1.setLoanTakerDto(modelMapper.map(libraryUser,LibraryUserDto.class));
+        System.out.println(libraryUser);
+
+        BookDto bookDto = modelMapper.map(bookRepository.findByBookId(saved.getBook().getBookId()).get(),BookDto.class);
+        loanDto1.setBookDto(bookDto);
+
+        return   loanDto1;
 
     }
 
@@ -54,23 +54,23 @@ public class LoanServiceImpl implements LoanService{
 
     @Override
     public LoanDto findById(long id) {
-         if(loanRepository.findById(id).isPresent()){
-             return modelMapper.map(loanRepository.findById(id).get(),LoanDto.class);
-         }
-        else throw new IllegalArgumentException("Id not found");
+        LoanDto loanDto = modelMapper.map(loanRepository.findByLoanId(id),LoanDto.class);
+        loanDto.setLoanTakerDto(modelMapper.map(libraryUserRepository.findByUserId(id).get(),LibraryUserDto.class));
+        loanDto.setBookDto(modelMapper.map(bookRepository.findByBookId(id),BookDto.class));
+     return  loanDto;
     }
 
     @Override
-    public List<LoanDto> findByBookId(int id) {
+    public List<LoanDto> findByBookId(long id) {
         List<Loan> loanList = new ArrayList<>();
       loanRepository.findAll().iterator().forEachRemaining(loanList::add);
 
-        return     loanRepository.findByBookBookId(id).stream().map(loan -> modelMapper.map(loan,LoanDto.class)).collect(Collectors.toList());
+        return   loanRepository.findByBookBookId(id).stream().map(loan -> modelMapper.map(loan,LoanDto.class)).collect(Collectors.toList());
 
     }
 
     @Override
-    public List<LoanDto> findByUserId(int id) {
+    public List<LoanDto> findByUserId(long id) {
         List<Loan> loanList = new ArrayList<>();
         loanRepository.findAll().iterator().forEachRemaining(loanList::add);
 

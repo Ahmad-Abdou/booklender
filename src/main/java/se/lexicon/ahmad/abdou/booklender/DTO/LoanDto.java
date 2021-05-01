@@ -21,5 +21,4 @@ public class LoanDto {
     public LoanDto() {
     }
 
-
 }

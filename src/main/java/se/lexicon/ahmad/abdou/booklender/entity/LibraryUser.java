@@ -10,7 +10,7 @@ import java.util.List;
 public class LibraryUser {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int userId;
+    private long userId;
     private LocalDate regDate;
     private String name;
     @Column(unique = true)

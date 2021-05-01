@@ -5,7 +5,7 @@ import java.math.BigDecimal;
 
 @Data
 public class BookDto {
-    private int bookId;
+    private long bookId;
     private String title;
     private boolean available;
     private boolean reserved;
@@ -13,12 +13,6 @@ public class BookDto {
     private BigDecimal finePerDay;
     private String description;
 
-    public BookDto(String title, int maxLoanDays, BigDecimal finePerDay, String description) {
-        this.title = title;
-        this.maxLoanDays = maxLoanDays;
-        this.finePerDay = finePerDay;
-        this.description = description;
-    }
 
     public BookDto() {
     }

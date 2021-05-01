@@ -12,7 +12,7 @@ public interface BookService {
 
      List<BookDto> findByTitle(String title);
 
-     BookDto findById(int id);
+     BookDto findById(long id);
 
      List<BookDto> findAll();
 
@@ -20,7 +20,7 @@ public interface BookService {
 
      BookDto update(BookDto bookDto);
 
-     boolean deleteById(int id);
+     boolean deleteById(long id);
 
 
 }

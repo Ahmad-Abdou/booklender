@@ -12,9 +12,9 @@ public interface LoanService {
 
     LoanDto findById(long id);
 
-    List<LoanDto> findByBookId(int id);
+    List<LoanDto> findByBookId(long id);
 
-    List<LoanDto> findByUserId(int id);
+    List<LoanDto> findByUserId(long id);
 
     List<LoanDto> findAll();
 

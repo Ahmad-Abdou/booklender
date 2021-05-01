@@ -10,7 +10,7 @@ import java.math.BigDecimal;
 public class Book {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int bookId;
+    private long bookId;
     private String title;
     private boolean available;
     private boolean reserved;

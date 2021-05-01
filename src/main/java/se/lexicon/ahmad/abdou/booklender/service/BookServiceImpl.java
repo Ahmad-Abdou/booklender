@@ -48,9 +48,9 @@ public class BookServiceImpl implements BookService{
     }
 
     @Override
-    public BookDto findById(int id) {
+    public BookDto findById(long id) {
         if(id <= 0) throw new IllegalArgumentException("id not found");
-        Optional<Book> book =bookRepository.findById(id);
+        Optional<Book> book =bookRepository.findByBookId(id);
         if(book.isPresent()){
             return modelMapper.map(book.get(),BookDto.class);
         }
@@ -75,11 +75,11 @@ public class BookServiceImpl implements BookService{
     }
 
     @Override
-    public boolean deleteById(int id) {
+    public boolean deleteById(long id) {
         if(id<= 0) throw new IllegalArgumentException("ID not found");
-        Optional<Book> book = bookRepository.findById(id);
+        Optional<Book> book = bookRepository.findByBookId(id);
         if(book.isPresent()){
-            bookRepository.deleteById(id);
+            bookRepository.deleteByBookId(id);
             return true;
         }
        else return false;

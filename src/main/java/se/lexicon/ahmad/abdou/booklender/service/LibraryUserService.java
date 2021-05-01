@@ -11,11 +11,11 @@ public interface LibraryUserService {
 
     LibraryUserDto update(LibraryUserDto libraryUserDto);
 
-    LibraryUserDto findById(int id);
+    LibraryUserDto findById(long id);
 
    LibraryUserDto findByEmail(String email);
 
     List<LibraryUserDto> findAll();
 
-    boolean deleteById(int id);
+    boolean deleteById(long id);
 }
