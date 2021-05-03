@@ -1,6 +1,6 @@
 package se.lexicon.ahmad.abdou.booklender.service;
 
-import org.junit.jupiter.api.Assertions;
+
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,9 +8,9 @@ import org.springframework.boot.test.context.SpringBootTest;
 import se.lexicon.ahmad.abdou.booklender.DTO.BookDto;
 import se.lexicon.ahmad.abdou.booklender.DTO.LibraryUserDto;
 import se.lexicon.ahmad.abdou.booklender.DTO.LoanDto;
-import se.lexicon.ahmad.abdou.booklender.entity.Book;
-import se.lexicon.ahmad.abdou.booklender.entity.LibraryUser;
-import se.lexicon.ahmad.abdou.booklender.entity.Loan;
+import se.lexicon.ahmad.abdou.booklender.Exception.ArgumentException;
+import se.lexicon.ahmad.abdou.booklender.Exception.DuplicateRecordException;
+
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
@@ -37,7 +37,7 @@ public class LoanServiceTest {
         this.bookService = bookService;
     }
     @BeforeEach
-    public void setup(){
+    public void setup() throws ArgumentException, DuplicateRecordException {
         bookDto = new BookDto();
         bookDto.setTitle("OCA");
         bookDto.setAvailable(true);
@@ -54,8 +54,8 @@ public class LoanServiceTest {
         libraryUserService.create(libraryUserDto);
 
         loanDto = new LoanDto();
-        loanDto.setLoanTakerDto(libraryUserDto);
-        loanDto.setBookDto(bookDto);
+        loanDto.setLoanTaker(libraryUserDto);
+        loanDto.setBook(bookDto);
         loanDto.setLocalDate(LocalDate.now());
         loanDto.setTerminated(false);
        loanService.create(loanDto);

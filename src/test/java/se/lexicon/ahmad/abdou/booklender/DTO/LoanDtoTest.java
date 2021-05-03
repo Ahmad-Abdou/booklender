@@ -30,8 +30,8 @@ public class LoanDtoTest {
         libraryUserDto.setRegDate(LocalDate.now());
 
         loanDto = new LoanDto();
-        loanDto.setBookDto(bookDto);
-        loanDto.setLoanTakerDto(libraryUserDto);
+        loanDto.setBook(bookDto);
+        loanDto.setLoanTaker(libraryUserDto);
         loanDto.setTerminated(false);
         loanDto.setLocalDate(LocalDate.now());
     }
@@ -50,8 +50,8 @@ public class LoanDtoTest {
         libraryUserDto.setEmail("test@gmail.com");
         libraryUserDto.setRegDate(LocalDate.now());
 
-        Assertions.assertEquals(bookDto,loanDto.getBookDto());
-        Assertions.assertEquals(libraryUserDto,loanDto.getLoanTakerDto());
+        Assertions.assertEquals(bookDto,loanDto.getBook());
+        Assertions.assertEquals(libraryUserDto,loanDto.getLoanTaker());
         Assertions.assertEquals(false,loanDto.isTerminated());
         Assertions.assertEquals(LocalDate.now(),loanDto.getLocalDate());
 
@@ -72,8 +72,8 @@ public class LoanDtoTest {
         libraryUserDto.setRegDate(LocalDate.now());
 
         LoanDto loanDto1 = new LoanDto();
-        loanDto1.setBookDto(bookDto);
-        loanDto1.setLoanTakerDto(libraryUserDto);
+        loanDto1.setBook(bookDto);
+        loanDto1.setLoanTaker(libraryUserDto);
         loanDto1.setTerminated(false);
         loanDto1.setLocalDate(LocalDate.now());
         Assertions.assertTrue(loanDto1.equals(loanDto));
@@ -94,8 +94,8 @@ public class LoanDtoTest {
         libraryUserDto.setRegDate(LocalDate.now());
 
         LoanDto loanDto1 = new LoanDto();
-        loanDto1.setBookDto(bookDto);
-        loanDto1.setLoanTakerDto(libraryUserDto);
+        loanDto1.setBook(bookDto);
+        loanDto1.setLoanTaker(libraryUserDto);
         loanDto1.setTerminated(false);
         loanDto1.setLocalDate(LocalDate.now());
 

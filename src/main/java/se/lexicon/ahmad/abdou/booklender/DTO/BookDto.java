@@ -2,6 +2,7 @@ package se.lexicon.ahmad.abdou.booklender.DTO;
 
 import lombok.Data;
 import java.math.BigDecimal;
+import java.util.List;
 
 @Data
 public class BookDto {
@@ -12,7 +13,7 @@ public class BookDto {
     private int maxLoanDays;
     private BigDecimal finePerDay;
     private String description;
-
+    private List<LoanDto> loanDtoList;
 
     public BookDto() {
     }

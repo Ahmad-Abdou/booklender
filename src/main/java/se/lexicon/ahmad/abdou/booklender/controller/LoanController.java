@@ -7,6 +7,8 @@ import org.springframework.web.bind.annotation.*;
 import se.lexicon.ahmad.abdou.booklender.DTO.BookDto;
 import se.lexicon.ahmad.abdou.booklender.DTO.LibraryUserDto;
 import se.lexicon.ahmad.abdou.booklender.DTO.LoanDto;
+import se.lexicon.ahmad.abdou.booklender.Exception.ArgumentException;
+import se.lexicon.ahmad.abdou.booklender.Exception.RecordNotFoundException;
 import se.lexicon.ahmad.abdou.booklender.service.BookService;
 import se.lexicon.ahmad.abdou.booklender.service.LibraryUserService;
 import se.lexicon.ahmad.abdou.booklender.service.LoanService;
@@ -43,15 +45,15 @@ public class LoanController {
         return ResponseEntity.status(HttpStatus.OK).body(loanService.findAll());
     }
     @PostMapping
-    public ResponseEntity<LoanDto> create(@RequestBody LoanDto loanDto){
+    public ResponseEntity<LoanDto> create(@RequestBody LoanDto loanDto) throws ArgumentException, RecordNotFoundException {
         if(loanDto==null){
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
         }
-       BookDto bookDto = bookService.findById(loanDto.getBookDto().getBookId());
-       LibraryUserDto libraryUserDto = libraryUserService.findById(loanDto.getLoanTakerDto().getUserId());
+       BookDto bookDto = bookService.findById(loanDto.getBook().getBookId());
+       LibraryUserDto libraryUserDto = libraryUserService.findById(loanDto.getLoanTaker().getUserId());
 
-        savingDto.setBookDto(bookDto);
-        savingDto.setLoanTakerDto(libraryUserDto);
+        savingDto.setBook(bookDto);
+        savingDto.setLoanTaker(libraryUserDto);
         savingDto= loanService.create(loanDto);
 
 
@@ -63,5 +65,13 @@ public class LoanController {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
         }
         return ResponseEntity.status(HttpStatus.ACCEPTED).body(loanService.update(loanDto));
+    }
+    @GetMapping("/book")
+    public ResponseEntity<List<LoanDto>> findByBookId(@RequestParam("id") Long id) throws ArgumentException {
+        return ResponseEntity.status(HttpStatus.OK).body(loanService.findByBookId(id));
+    }
+    @GetMapping("/user")
+    public ResponseEntity<List<LoanDto>> findByUserId(@RequestParam("id") Long id) throws RecordNotFoundException {
+        return ResponseEntity.status(HttpStatus.OK).body(loanService.findByUserId(id));
     }
 }

@@ -5,6 +5,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import se.lexicon.ahmad.abdou.booklender.DTO.BookDto;
+import se.lexicon.ahmad.abdou.booklender.Exception.RecordNotFoundException;
 import se.lexicon.ahmad.abdou.booklender.service.BookService;
 import java.util.List;
 
@@ -21,7 +22,7 @@ public class BookController {
     }
 
       @GetMapping("/{id}")
-    public ResponseEntity<BookDto> findBYID(@PathVariable("id") long id){
+    public ResponseEntity<BookDto> findBYID(@PathVariable("id") long id) throws RecordNotFoundException {
         return ResponseEntity.status(HttpStatus.OK).body(bookService.findById(id));
       }
       @GetMapping

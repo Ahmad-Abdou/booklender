@@ -5,6 +5,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import se.lexicon.ahmad.abdou.booklender.DTO.LibraryUserDto;
+import se.lexicon.ahmad.abdou.booklender.Exception.DuplicateRecordException;
+import se.lexicon.ahmad.abdou.booklender.Exception.RecordNotFoundException;
 import se.lexicon.ahmad.abdou.booklender.service.LibraryUserService;
 import java.util.List;
 
@@ -20,7 +22,7 @@ public class LibraryUserController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<LibraryUserDto> findById(@PathVariable("id") long id){
+    public ResponseEntity<LibraryUserDto> findById(@PathVariable("id") long id) throws RecordNotFoundException {
 
          return ResponseEntity.status(HttpStatus.OK).body( libraryUserService.findById(id));
     }
@@ -34,7 +36,7 @@ public class LibraryUserController {
          return ResponseEntity.status(HttpStatus.OK).body(libraryUserService.findByEmail(email));
     }
     @PostMapping
-    public ResponseEntity<LibraryUserDto> create(@RequestBody LibraryUserDto libraryUserDto){
+    public ResponseEntity<LibraryUserDto> create(@RequestBody LibraryUserDto libraryUserDto) throws DuplicateRecordException {
          if(libraryUserDto == null){
              return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
          }

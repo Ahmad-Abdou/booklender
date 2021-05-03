@@ -6,6 +6,9 @@ import org.springframework.stereotype.Service;
 import se.lexicon.ahmad.abdou.booklender.DTO.BookDto;
 import se.lexicon.ahmad.abdou.booklender.DTO.LibraryUserDto;
 import se.lexicon.ahmad.abdou.booklender.DTO.LoanDto;
+import se.lexicon.ahmad.abdou.booklender.Exception.ArgumentException;
+import se.lexicon.ahmad.abdou.booklender.Exception.DuplicateRecordException;
+import se.lexicon.ahmad.abdou.booklender.Exception.RecordNotFoundException;
 import se.lexicon.ahmad.abdou.booklender.entity.LibraryUser;
 import se.lexicon.ahmad.abdou.booklender.entity.Loan;
 import se.lexicon.ahmad.abdou.booklender.repository.BookRepository;
@@ -31,46 +34,50 @@ public class LoanServiceImpl implements LoanService{
     }
 
     @Override
-    public LoanDto create(LoanDto loanDto) {
+    public LoanDto create(LoanDto loanDto) throws ArgumentException {
+        if(loanDto == null) throw new ArgumentException("Arguments is not valid");
         Loan loanEntity = modelMapper.map(loanDto,Loan.class);
         Loan saved =  loanRepository.save(loanEntity);
         LoanDto  loanDto1 = modelMapper.map(saved,LoanDto.class);
 
         LibraryUser libraryUser = libraryUserRepository.findByUserId(saved.getLoanTaker().getUserId()).get();
-        loanDto1.setLoanTakerDto(modelMapper.map(libraryUser,LibraryUserDto.class));
+        loanDto1.setLoanTaker(modelMapper.map(libraryUser,LibraryUserDto.class));
         System.out.println(libraryUser);
 
         BookDto bookDto = modelMapper.map(bookRepository.findByBookId(saved.getBook().getBookId()).get(),BookDto.class);
-        loanDto1.setBookDto(bookDto);
+        loanDto1.setBook(bookDto);
 
         return   loanDto1;
 
     }
-
     @Override
-    public LoanDto update(LoanDto loanDto) {
+    public LoanDto update(LoanDto loanDto)  {
         return   modelMapper.map(loanRepository.save(modelMapper.map(loanDto, Loan.class)),LoanDto.class);
     }
 
     @Override
-    public LoanDto findById(long id) {
+    public LoanDto findById(long id)  {
         LoanDto loanDto = modelMapper.map(loanRepository.findByLoanId(id),LoanDto.class);
-        loanDto.setLoanTakerDto(modelMapper.map(libraryUserRepository.findByUserId(id).get(),LibraryUserDto.class));
-        loanDto.setBookDto(modelMapper.map(bookRepository.findByBookId(id),BookDto.class));
+        loanDto.setLoanTaker(modelMapper.map(libraryUserRepository.findByUserId(id).get(),LibraryUserDto.class));
+        loanDto.setBook(modelMapper.map(bookRepository.findByBookId(id),BookDto.class));
      return  loanDto;
     }
 
     @Override
-    public List<LoanDto> findByBookId(long id) {
+    public List<LoanDto> findByBookId(long id) throws ArgumentException {
+
+        if(id <= 0 ) throw new ArgumentException("Book id cannot be 0");
         List<Loan> loanList = new ArrayList<>();
       loanRepository.findAll().iterator().forEachRemaining(loanList::add);
+
 
         return   loanRepository.findByBookBookId(id).stream().map(loan -> modelMapper.map(loan,LoanDto.class)).collect(Collectors.toList());
 
     }
 
     @Override
-    public List<LoanDto> findByUserId(long id) {
+    public List<LoanDto> findByUserId(long id) throws RecordNotFoundException{
+        if(id<= 0) throw  new RecordNotFoundException("user id cannot be 0");
         List<Loan> loanList = new ArrayList<>();
         loanRepository.findAll().iterator().forEachRemaining(loanList::add);
 

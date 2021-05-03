@@ -6,6 +6,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import se.lexicon.ahmad.abdou.booklender.DTO.BookDto;
+import se.lexicon.ahmad.abdou.booklender.Exception.RecordNotFoundException;
 
 
 import java.math.BigDecimal;
@@ -44,7 +45,7 @@ public class BookServiceTest {
     }
 
     @Test
-    public void findById(){
+    public void findById() throws RecordNotFoundException {
        BookDto bookDto1 =  bookService.findById(1);
         System.out.println(bookDto1);
         Assertions.assertEquals(bookDto1,bookService.findAll().get(0));

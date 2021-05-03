@@ -4,6 +4,7 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import se.lexicon.ahmad.abdou.booklender.DTO.BookDto;
+import se.lexicon.ahmad.abdou.booklender.Exception.RecordNotFoundException;
 import se.lexicon.ahmad.abdou.booklender.entity.Book;
 import se.lexicon.ahmad.abdou.booklender.repository.BookRepository;
 import java.util.ArrayList;
@@ -48,13 +49,13 @@ public class BookServiceImpl implements BookService{
     }
 
     @Override
-    public BookDto findById(long id) {
+    public BookDto findById(long id) throws RecordNotFoundException {
         if(id <= 0) throw new IllegalArgumentException("id not found");
         Optional<Book> book =bookRepository.findByBookId(id);
         if(book.isPresent()){
             return modelMapper.map(book.get(),BookDto.class);
         }
-       else throw new IllegalArgumentException("id not found");
+       else throw  new RecordNotFoundException("No data Found");
     }
 
     @Override

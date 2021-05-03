@@ -4,6 +4,8 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import se.lexicon.ahmad.abdou.booklender.DTO.LibraryUserDto;
+import se.lexicon.ahmad.abdou.booklender.Exception.DuplicateRecordException;
+import se.lexicon.ahmad.abdou.booklender.Exception.RecordNotFoundException;
 import se.lexicon.ahmad.abdou.booklender.entity.LibraryUser;
 import se.lexicon.ahmad.abdou.booklender.repository.LibraryUserRepository;
 import java.util.ArrayList;
@@ -28,7 +30,8 @@ public class LibraryUserServiceImpl implements LibraryUserService{
     }
 
     @Override
-    public LibraryUserDto create(LibraryUserDto libraryUserDto) {
+    public LibraryUserDto create(LibraryUserDto libraryUserDto) throws DuplicateRecordException {
+        if(libraryUserDto.getEmail().equals(libraryUserRepository.findByEmail(libraryUserDto.getEmail()))) throw new DuplicateRecordException("you cant have the same email");
         return modelMapper.map(libraryUserRepository.save(modelMapper.map(libraryUserDto, LibraryUser.class)),LibraryUserDto.class);
     }
 
@@ -38,17 +41,18 @@ public class LibraryUserServiceImpl implements LibraryUserService{
     }
 
     @Override
-    public LibraryUserDto findById(long id) {
+    public LibraryUserDto findById(long id) throws RecordNotFoundException {
         if(id <= 0) throw  new IllegalArgumentException("ID cannot be null");
         Optional<LibraryUser> libraryUser= libraryUserRepository.findByUserId(id);
         if(libraryUser.isPresent()){
             return modelMapper.map(libraryUser.get(),LibraryUserDto.class);
         }
-        else throw new IllegalArgumentException("ID Not Found");
+        else throw  new RecordNotFoundException("No data Found");
     }
 
     @Override
     public LibraryUserDto findByEmail(String email) {
+
         return  modelMapper.map(libraryUserRepository.findByEmail(email),LibraryUserDto.class);
     }
 

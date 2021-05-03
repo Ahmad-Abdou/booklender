@@ -1,6 +1,7 @@
 package se.lexicon.ahmad.abdou.booklender.service;
 
 import se.lexicon.ahmad.abdou.booklender.DTO.BookDto;
+import se.lexicon.ahmad.abdou.booklender.Exception.RecordNotFoundException;
 
 import java.util.List;
 
@@ -12,7 +13,7 @@ public interface BookService {
 
      List<BookDto> findByTitle(String title);
 
-     BookDto findById(long id);
+     BookDto findById(long id) throws RecordNotFoundException;
 
      List<BookDto> findAll();
 
